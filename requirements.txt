@@ -1,0 +1,9 @@
+# HTTP client for Immich API calls
+requests>=2.32.0
+
+# Optional Redis cache (gracefully skipped if unavailable)
+redis>=5.0.0
+
+# Lightroom SQL Tools — install from GitHub as described in SPECS.md:
+# pip install git+https://github.com/fdenivac/Lightroom-SQL-tools
+git+https://github.com/fdenivac/Lightroom-SQL-tools
