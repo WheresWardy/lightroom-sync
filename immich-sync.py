@@ -18,6 +18,7 @@ Optional environment variables:
   REDIS_CACHE_TTL     Cache TTL in seconds; 0 = no expiry (default: 604800 = 7 days)
   BATCH_SIZE          Max assets per add-to-album API call (default: 500)
   DRY_RUN             Set to '1' to preview without making changes (default: 0)
+  LOG_LEVEL           Logging verbosity: DEBUG, INFO, WARNING, ERROR (default: INFO)
 
 The script requires a working Redis connection by default. Pass -f / --force to
 allow it to run without Redis (every asset will be resolved via the Immich API
@@ -39,8 +40,9 @@ from lrtools.lrtoolconfig import LRToolConfig
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
+_LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(
-    level=logging.INFO,
+    level=getattr(logging, _LOG_LEVEL, logging.INFO),
     format="%(asctime)s %(levelname)-8s %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
@@ -494,7 +496,7 @@ def main() -> None:
         "--verbose",
         "-v",
         action="store_true",
-        help="Enable debug-level logging.",
+        help="Force DEBUG-level logging, overriding LOG_LEVEL.",
     )
     args = parser.parse_args()
 
